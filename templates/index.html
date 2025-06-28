@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Creditworthiness Predictor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            margin: 0;
+            padding: 40px;
+            text-align: center;
+        }
+        form {
+            background: white;
+            padding: 25px;
+            margin: auto;
+            width: 50%;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input, select {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 30px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Creditworthiness Prediction</h1>
+    <form action="/predict" method="post">
+        <input type="text" name="city" placeholder="City" required><br>
+        <select name="sex">
+            <option value="M">Male</option>
+            <option value="F" selected>Female</option>
+        </select><br>
+        <select name="social_class">
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="OBC" selected>OBC</option>
+        </select><br>
+        <input type="text" name="primary_business" placeholder="Primary Business" required><br>
+        <input type="number" name="age" placeholder="Age" required><br>
+        <input type="number" name="annual_income" step="0.01" placeholder="Annual Income" required><br>
+        <input type="number" name="monthly_expenses" step="0.01" placeholder="Monthly Expenses" required><br>
+        <input type="number" name="loan_tenure" placeholder="Loan Tenure (months)" required><br>
+        <input type="number" name="loan_amount" step="0.01" placeholder="Loan Amount" required><br>
+        <input type="number" name="dti" step="0.0001" placeholder="DTI" required><br>
+        <input type="number" name="disposable_income" step="0.01" placeholder="Disposable Income" required><br>
+        <input type="number" name="ltv" step="0.01" placeholder="LTV" required><br>
+
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if prediction_text %}
+        <h2 style="color: green; margin-top: 30px;">{{ prediction_text }}</h2>
+    {% endif %}
+</body>
+</html>
