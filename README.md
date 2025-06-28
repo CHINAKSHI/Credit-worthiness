@@ -1,5 +1,9 @@
 # 🏦 Creditworthiness Prediction Report
 
+## 🚀 Live Demo
+[Click here](https://credit-worthiness.onrender.com) to check out the deployed app.
+
+
 ## 📌 1. Problem Statement
 **Objective:**  
 Predict whether a village resident is creditworthy based on socio-economic and loan-related data.
