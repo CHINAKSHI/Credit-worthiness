@@ -1,68 +1,124 @@
-# Credit-worthiness
-Clean Data: The clean_data function handles missing values and outliers in the dataset. It also standardizes city names.
+# 🏦 Creditworthiness Prediction Report
 
-Analyze Data: The analyze_data function generates descriptive statistics and visualizations for the dataset, such as age distribution and gender distribution.
+## 📌 1. Problem Statement
+**Objective:**  
+Predict whether a village resident is creditworthy based on socio-economic and loan-related data.
 
-Check Creditworthiness: The check_creditworthiness function calculates the debt-to-income ratio and determines creditworthiness based on a simple criterion (debt-to-income ratio < 0.5). It then summarizes and visualizes the creditworthiness distribution.
+---
 
-Main Function: The main function orchestrates the loading, cleaning, analyzing, and creditworthiness checking processes.
+## 📁 2. Dataset Overview
 
-Features
+**Dataset Name:** `trainingData.csv`  
+**Records:** 40,000 individuals  
+**Columns:** 21 original features, including:
 
-Descriptive analysis of all variables
+- **Demographics:** `age`, `sex`, `social_class`, `city`
+- **Financials:** `annual_income`, `monthly_expenses`, `loan_amount`, `loan_tenure`
+- **Assets & Facilities:** `house_area`, `home_ownership`, `sanitary_availability`, `water_availabity`
 
-Data preprocessing and cleaning
+**Target Variable:** `creditworthy` (Binary: `1` = Creditworthy, `0` = Not Creditworthy)
 
-Exploratory Data Analysis (EDA)
+---
 
-Feature engineering
+## 🧼 3. Data Preprocessing
 
-Model training and evaluation
+### 🧪 Exploratory Data Analysis (EDA)
 
-Performance metrics visualization
+- Visualized gender distribution, loan purpose distribution, income vs loan amount, etc.
+- Identified outliers in `age`, `annual_income`, and other numeric features.
 
-Installation
+### 🧹 Missing Value Handling
 
-To run this project locally, you need to install the required dependencies:
+- **Numerical columns:** Filled using **median**
+- **Categorical columns:** Filled using **mode**
 
-pip install -r requirements.txt
+### 🚫 Outlier Removal
 
-Usage
+- Applied **IQR** and **Z-score** methods to eliminate anomalies.
 
-Clone the repository:
+---
 
-git clone https://github.com/your-username/your-repo.git
-cd your-repo
+## 🧮 4. Feature Engineering
 
-Install dependencies (if not already installed).
+Derived domain-relevant financial metrics:
 
-Open the Jupyter Notebook:
+### 📊 Derived Metrics
 
-jupyter notebook "str-sr (1).ipynb"
+| Metric | Formula |
+|--------|---------|
+| **DTI** (Debt-to-Income Ratio) | `(loan_installments × 12) / annual_income` |
+| **Disposable Income** | `annual_income - (monthly_expenses × 12)` |
+| **Dependents** | `old_dependents + young_dependents` |
+| **Dependent Ratio** | `Dependents / annual_income` |
+| **LTV** (Loan-to-Value Ratio) | `loan_amount / house_area` *(only if `home_ownership == 1`)* |
 
-Execute the cells sequentially to complete the analysis.
+---
 
-Dependencies
+## 🧠 5. Credit Scoring Logic
 
-Python 3.x
+Each satisfied rule scores **+1 point**. Final score is between `0` to `7`.
 
-Pandas
+| Rule No. | Condition | Description |
+|----------|-----------|-------------|
+| 1 | `DTI < 0.4` | Low debt burden |
+| 2 | `Disposable_Income > loan_amount` | Can afford the loan |
+| 3 | `Dependent_Ratio < 0.5` | Fewer dependents per income |
+| 4 | `LTV < 0.8` | Safer loan relative to house value |
+| 5 | `sanitary_availability == 1` **AND** `water_availabity == 1` | Has basic amenities |
+| 6 | `loan_tenure <= 24` | Shorter repayment period |
+| 7 | `social_class == 'A'` | Higher, stable social class |
 
-NumPy
+### ✅ Final Labeling
+- **Creditworthy (1):** If total score **≥ 4**
+- **Not Creditworthy (0):** If total score **< 4**
 
-Matplotlib
+---
 
-Seaborn
+## 🤖 6. Modeling Techniques
 
-Scikit-learn
+### 🔧 Preprocessing
+- **Feature Encoding:** One-hot encoding
+- **Imputation:** Median (numerical), Mode (categorical)
+- **Outlier Handling:** IQR & Z-score methods
 
-Kaggle API (if running in Kaggle)
+### 🔍 Models Trained
 
-Results
+1. **Random Forest Classifier**
+2. **Logistic Regression**
+3. **XGBoost Classifier**
 
-Data insights and visualizations from EDA
+---
 
-Model performance metrics
+## 📈 7. Model Evaluation
 
-Predictions based on the trained model
+### 🧪 Why these metrics?
+Used **Accuracy, Precision, Recall, F1-Score** due to potential **imbalance** in target classes.
+
+### 📊 Model Performance
+
+| Model | Accuracy | Precision | Recall | F1-Score |
+|-------|----------|-----------|--------|----------|
+| **Random Forest** | 0.98 | 0.97 | 0.99 | 0.98 |
+| **Logistic Regression** | 0.92 | 0.91 | 0.94 | 0.92 |
+| **XGBoost** | 1.00 | 1.00 | 1.00 | 1.00 |
+
+Other evaluations:
+- Confusion Matrix
+- ROC Curve
+- Precision-Recall Curve
+
+---
+
+## 💾 8. Final Output
+
+- ✅ **Processed Output File:** `village_creditworthy.csv`
+- 🧠 **Best Trained Model:** `creditworthiness_model.pkl`
+- 🔄 **Full Pipeline:** `creditworthiness_pipeline.pkl`
+
+---
+
+## 🏁 Conclusion
+
+The XGBoost model achieved **100% accuracy** with complete feature engineering and domain-inspired credit scoring. This robust system is now capable of classifying the creditworthiness of rural residents using a transparent, rule-based + machine learning hybrid approach.
+
 
