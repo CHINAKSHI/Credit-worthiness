@@ -1,7 +1,7 @@
 # 🏦 Creditworthiness Prediction Report
 
 ## 🚀 Live Demo
-[Click here](https://credit-worthiness.onrender.com) to check out the deployed app.
+[Click here](https://credit-worthiness-3.onrender.com) to check out the deployed app.
 
 
 ## 📌 1. Problem Statement
